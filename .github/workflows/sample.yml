@@ -33,3 +33,13 @@ jobs:
         with:
           name: publish
           path: ./publish
+
+# inclua um upload artifact para a pasta ./bicep
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: bicep
+          path: ./bicep
+
+
