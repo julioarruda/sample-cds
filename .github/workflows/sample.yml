@@ -63,7 +63,7 @@ jobs:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: Deploy
-        script: |
+        run: |
           az deployment group create --resource-group ${{ secrets.RESOURCE_GROUP }} --template-file ./bicep/sample.bicep 
 
       - uses: azure/webapps-deploy@v2
