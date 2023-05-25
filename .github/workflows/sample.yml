@@ -43,3 +43,32 @@ jobs:
           path: ./bicep
 
 
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: download-artifact@v2
+        with:
+          name: publish
+          path: ./publish
+
+      - uses: download-artifact@v2
+        with:
+          name: bicep
+          path: ./bicep
+      
+      - uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Deploy
+        script: |
+          az deployment group create --resource-group ${{ secrets.RESOURCE_GROUP }} --template-file ./bicep/sample.bicep 
+
+      - use: azure/webapps-deploy@v2
+        with:
+          app-name: demo-app-service-bicep-arruda
+          package: ./publish
+
+
